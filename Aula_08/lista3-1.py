@@ -29,4 +29,8 @@ class Retangulo:
         return self.__base * self.__altura
     
     def calcDiagonal(self):
-        return math.sqrt((self.__base*self.__base) + (self.__altura*self.__altura))
+        return math.sqrt((self.__base*self.__base) + (self.__altura * self.__altura))
+    
+    def __str__(self):
+        return f"Eu sou um retangulo e tenho {self.__altura} de altura e {self.__base} de base!"
+    
