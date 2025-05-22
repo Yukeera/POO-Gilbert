@@ -7,11 +7,11 @@ class treino:
         #self.__data = data
         #self.__dist = dist
         #self.__tempo = tempo
-        treino.id = id
-        treino.idAtleta = idAtleta
-        treino.data = data
-        treino.dist = dist
-        treino.tempo = tempo
+        self.id = id
+        self.idAtleta = idAtleta
+        self.data = data
+        self.dist = dist
+        self.tempo = tempo
 
     @property
     def id(self):
