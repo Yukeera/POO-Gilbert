@@ -49,7 +49,7 @@ class Categorias:
         cls.objetos = []
         try:
             with open("categorias.json", mode = r) as arquivo:
-                s = json.load(arquivo)
+                s = json.load(arquivo) #PAREI AQUI
             
         except FileNotFoundError:
             pass
