@@ -129,12 +129,10 @@ class View:
             return
         c.setIdCarrinho(v.id)
         Clientes.salvar()
-        print(f"id do carrinho é {c.getIdCarrinho()} e o cliente é {c.getNome()}")
 
     @staticmethod
     def verificar_carrinho(id_cliente):
         c = Clientes.listar_id(id_cliente)
-        print (f"Na verificação o id do carrinho é {c.getIdCarrinho()} e o {c.getNome()}")
         if (c.getIdCarrinho() == 0):
             print("Você precisa criar um carrinho primeiro!")
             return 0
@@ -214,6 +212,8 @@ class View:
                 produto.setEstoque(produto.getEstoque() - item.getQtd())
                 Produtos.atualizar(produto)
                 VendaItens.excluir(item)
+
+        print("Compra finalizada com sucesso!")
 
     @staticmethod
     def listar_minhas_compras(id_de_acesso):

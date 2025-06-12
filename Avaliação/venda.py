@@ -1,10 +1,11 @@
 import json
 from datetime import datetime
+import pytz
 
 class Venda:
     def __init__(self, id, id_cliente):
         self.setId(id)
-        self.setData(datetime.now())
+        self.setData(datetime.now(pytz.timezone('America/Sao_Paulo')))
         self.setCarrinho(True)
         self.setTotal(0)
         self.setIdCliente(id_cliente)

@@ -320,8 +320,7 @@ class UI:  # Classe de Interface com o Usuário (View no padrão)
     def venda_inserir(cls):
         # Cria uma nova venda e associa a um carrinho
         View.inserir_venda(cls.id_de_acesso)
-        print(cls.id_de_acesso)
-
+        
     @staticmethod
     def venda_listar():
         # Lista todas as vendas confirmadas e seus itens
