@@ -45,11 +45,10 @@ class View:
 
     @staticmethod
     def autenticacao_Usuario(email, senha):
-        clientes = Clientes.listar()
-        for c in clientes:
-            if(c.getEmail() == email and c.getSenha() == senha):
-               return c.getId()
-        return 0
+        for c in Clientes.listar():
+            if c.getEmail() == email and c.getSenha() == senha:
+                return c  # Retorna o OBJETO Cliente
+        return None
 
     # ----------------------------------------
     # Categoria - Operações CRUD
