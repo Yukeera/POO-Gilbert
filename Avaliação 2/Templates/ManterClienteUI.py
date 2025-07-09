@@ -57,7 +57,6 @@ class ManterClienteUI:
                     st.error(erro)    
                     time.sleep(2)
                     st.rerun()
-
     def excluir():
         clientes = View.cliente_listar()
         if len(clientes) == 0: 

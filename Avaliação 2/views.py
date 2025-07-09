@@ -141,11 +141,25 @@ class View:
 
     @staticmethod
     def listar_vendas_com_itens():
-        # Lista todas as vendas com seus respectivos itens formatados
+        # Lista todas as vendas com seus respectivos itens formatados para o terminal com print
         for c in Clientes.listar():
             if (len(c.getCarrinhosFinalizados()) > 0):
                 print(f"CLiente: \n {c} \n")
                 c.listarCarrinhosFinalizados()
+
+    @staticmethod
+    def listar_vendas_admin():
+        # Lista todas as vendas com seus respectivos itens formatados para Streamlit
+        vendas_formatadas = []
+
+        for c in Clientes.listar():
+            for carrinho in c.getCarrinhosFinalizados():
+                vendas_formatadas.append({
+                    "cliente_id": c.getId(),
+                    "cliente_nome": c.getNome(),
+                    "descricao": carrinho 
+                })
+        return vendas_formatadas            
 
     @staticmethod
     def listar_itens_do_carrinho(id_carrinho):
