@@ -11,17 +11,16 @@ class ManterCategoriaUI:
         with tab2: ManterCategoriaUI.inserir()
         with tab3: ManterCategoriaUI.atualizar()
         with tab4: ManterCategoriaUI.excluir()
+
     def listar():
         categorias = View.categoria_listar()
         if len(categorias) == 0: 
             st.write("Nenhuma categoria cadastrada")
         else:    
-            list_dic = []
-            for obj in categorias:
-                dic = obj.__dict__ 
-                list_dic.append(dic)
+            list_dic = [obj.__dict__ for obj in categorias]
             df = pd.DataFrame(list_dic)
             st.dataframe(df)
+
     def inserir():
         descricao = st.text_input("Informe a descrição da categoria:")
         if st.button("Cadastrar"):
@@ -34,6 +33,7 @@ class ManterCategoriaUI:
                 st.error(f"Erro: {erro}")
                 time.sleep(2)
                 st.rerun()
+
     def atualizar():
         categorias = View.categoria_listar()
         if len(categorias) == 0: 
@@ -51,6 +51,7 @@ class ManterCategoriaUI:
                     st.error(f"Erro: {erro}")
                     time.sleep(2)
                     st.rerun()
+
     def excluir():
         categorias = View.categoria_listar()
         if len(categorias) == 0: 

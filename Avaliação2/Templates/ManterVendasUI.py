@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 from views import View
-import time
 
 class ManterVendasUI:
     def main():
@@ -11,16 +10,9 @@ class ManterVendasUI:
             ManterVendasUI.listar()
 
     def listar():
-        vendas = View.listar_vendas_admin()
+        vendas = View.venda_listar_admin()
         if len(vendas) == 0:
             st.write("Nenhuma compra foi realizada ainda.")
         else:
-            list_dic = []
-            for venda in vendas:
-                list_dic.append({
-                    "Cliente ID": venda["cliente_id"],
-                    "Cliente Nome": venda["cliente_nome"],
-                    "Descrição da Compra": venda["descricao"]
-                })
-            df = pd.DataFrame(list_dic)
+            df = pd.DataFrame(vendas)
             st.dataframe(df)
