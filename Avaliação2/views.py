@@ -44,10 +44,10 @@ class View:
 
 
     @staticmethod
-    def autenticacao_Usuario(email, senha):
+    def cliente_autenticar(email, senha):
         for c in Clientes.listar():
             if c.getEmail() == email and c.getSenha() == senha:
-                return c  # Retorna o OBJETO Cliente
+                return c
         return None
 
     # ----------------------------------------
