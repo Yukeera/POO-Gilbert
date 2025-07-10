@@ -40,10 +40,10 @@ class ManterCategoriaUI:
             st.write("Nenhuma categoria cadastrada")
         else:
             op = st.selectbox("Atualização de categoria", categorias)
-            nova_descricao = st.text_input("Informe a nova descrição", op.get_descricao())
+            nova_descricao = st.text_input("Informe a nova descrição", op.getDescricao())
             if st.button("Atualizar"):
                 try:
-                    View.categoria_atualizar(op.get_id(), nova_descricao)
+                    View.categoria_atualizar(op.getId(), nova_descricao)
                     st.success("Categoria atualizada com sucesso")
                     time.sleep(2)
                     st.rerun()
@@ -60,7 +60,7 @@ class ManterCategoriaUI:
             op = st.selectbox("Exclusão de categoria", categorias)
             if st.button("Excluir"):
                 try:
-                    View.categoria_excluir(op.get_id())
+                    View.categoria_excluir(op.getId())
                     st.success("Categoria excluída com sucesso")
                     time.sleep(2)
                     st.rerun()

@@ -32,7 +32,7 @@ class ManterProdutoUI:
         cat = st.selectbox("Selecione a categoria:", categorias)
         if st.button("Cadastrar"):
             try:
-                View.produto_inserir(descricao, preco, estoque, cat.get_id())
+                View.produto_inserir(descricao, preco, estoque, cat.getId())
                 st.success("Produto inserido com sucesso")
                 time.sleep(2)
                 st.rerun()
@@ -51,13 +51,13 @@ class ManterProdutoUI:
             st.warning("Cadastre uma categoria antes de atualizar produtos.")
             return
         op = st.selectbox("Atualização de produto", produtos)
-        nova_desc = st.text_input("Informe a nova descrição:", op.get_descricao())
-        novo_preco = st.number_input("Informe o novo preço:", value=op.get_preco())
-        novo_estoque = st.number_input("Informe o novo estoque:", value=op.get_estoque())
+        nova_desc = st.text_input("Informe a nova descrição:", op.getDescricao())
+        novo_preco = st.number_input("Informe o novo preço:", value=op.getPreco())
+        novo_estoque = st.number_input("Informe o novo estoque:", value=op.getEstoque())
         nova_cat = st.selectbox("Selecione a nova categoria:", categorias)
         if st.button("Atualizar"):
             try:
-                View.produto_atualizar(op.get_id(), nova_desc, novo_preco, novo_estoque, nova_cat.get_id())
+                View.produto_atualizar(op.getId(), nova_desc, novo_preco, novo_estoque, nova_cat.getId())
                 st.success("Produto atualizado com sucesso")
                 time.sleep(2)
                 st.rerun()
@@ -74,7 +74,7 @@ class ManterProdutoUI:
             op = st.selectbox("Exclusão de produto", produtos)
             if st.button("Excluir"):
                 try:
-                    View.produto_excluir(op.get_id())
+                    View.produto_excluir(op.getId())
                     st.success("Produto excluído com sucesso")
                     time.sleep(2)
                     st.rerun()
