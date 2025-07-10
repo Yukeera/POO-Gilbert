@@ -1,6 +1,7 @@
 import streamlit as st
 from views import View
 import time
+
 class AbrirContaUI:
     def main():
         st.header("Abrir Conta")
@@ -12,4 +13,4 @@ class AbrirContaUI:
             View.cliente_inserir(nome, email, senha, fone)
             st.success("Conta criada com sucesso.")
             time.sleep(2)
-            st.rerun()
+            st.rerun

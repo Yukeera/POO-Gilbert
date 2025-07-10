@@ -47,12 +47,12 @@ class ManterClienteUI:
             st.write("Nenhum cliente cadastrado")
         else:
             op = st.selectbox("Atualização de cliente", clientes)
-            nome = st.text_input("Informe o novo nome", op.get_nome())
-            email = st.text_input("Informe o novo e-mail", op.get_email())
-            fone = st.text_input("Informe o novo fone", op.get_fone())
+            nome = st.text_input("Informe o novo nome", op.getNome())
+            email = st.text_input("Informe o novo e-mail", op.getEmail())
+            fone = st.text_input("Informe o novo fone", op.getFone())
             if st.button("Atualizar"):
                 try:
-                    View.cliente_atualizar(op.get_id(), nome, email, op.get_senha(), fone)
+                    View.cliente_atualizar(op.getId(), nome, email, op.getSenha(), fone)
                     st.success("Cliente atualizado com sucesso")
                     time.sleep(2)
                     st.rerun()
@@ -69,7 +69,7 @@ class ManterClienteUI:
             op = st.selectbox("Exclusão de cliente", clientes)
             if st.button("Excluir"):
                 try:
-                    View.cliente_excluir(op.get_id())
+                    View.cliente_excluir(op.getId())
                     st.success("Cliente excluído com sucesso")
                     time.sleep(2)
                     st.rerun()
