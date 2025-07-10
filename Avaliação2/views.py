@@ -120,22 +120,17 @@ class View:
     def venda_inserir(id_cliente):
         c = Clientes.listar_id(id_cliente)
         if c.getIdCarrinho() != 0:
-            print(f"Você já tem um carrinho aberto com o id {c.getIdCarrinho()}. Por favor, finalize a compra antes de criar um novo.")
-            return
+            raise ValueError
         v = Venda(0, id_cliente)
         Vendas.inserir(v)
-        c = Clientes.listar_id(id_cliente)
-        if c.getIdCarrinho() != 0:
-            print(f"Você já tem um carrinho aberto com o id {c.getIdCarrinho()}. Por favor, finalize a compra antes de criar um novo.")
-            return
         c.setIdCarrinho(v.id)
         Clientes.salvar()
+        return 1
 
     @staticmethod
     def carrinho_verificar(id_cliente):
         c = Clientes.listar_id(id_cliente)
         if c.getIdCarrinho() == 0:
-            print("Você precisa criar um carrinho primeiro!")
             return 0
         else:
             return c.getIdCarrinho()
@@ -174,11 +169,9 @@ class View:
         produto = Produtos.listar_id(id_produto)
         preco = produto.getPreco()
         if produto.getEstoque() < qtd:
-            print(f"Estoque insuficiente para o produto {produto.getDescricao()}. Estoque atual: {produto.getEstoque()}")
-            return
+            raise ValueError(f"Estoque insuficiente para o produto {produto.getDescricao()}. Estoque atual: {produto.getEstoque()}")
         elif qtd <= 0:
-            print("Quantidade inválida. Por favor, insira uma quantidade maior que zero.")
-            return
+            raise ValueError("Quantidade inválida. Por favor, insira uma quantidade maior que zero.")
 
         vi = VendaItem(0, qtd, preco)
         vi.setIdVenda(id_carrinho)
@@ -193,34 +186,33 @@ class View:
     @staticmethod
     def carrinho_confirmar_compra(id_carrinho, id_de_acesso):
         if VendaItens.listar() is None or len(VendaItens.listar()) == 0:
-            print("Você não tem itens no carrinho!")
-            return
+            raise ValueError("Você não tem itens no carrinho!")
         for item in VendaItens.listar():
             if item.getIdVenda() == id_carrinho:
                 break
         else:
-            print("Você não tem itens no carrinho!")
-            return
+            raise ValueError("Você não tem itens no carrinho!")
 
         carrinho = Vendas.listar_id(id_carrinho)
         c = Clientes.listar_id(id_de_acesso)
         carrinhoFinalizado = f"Compra :\n{carrinho} \n"
-        Vendas.excluir(carrinho)
 
         for item in VendaItens.listar():
             if item.getIdVenda() == id_carrinho:
-                produto = Produtos.listar_id(item.getIdProduto())
-                carrinhoFinalizado += f"{produto.getDescricao()} - Qtd: {item.getQtd()} - R$ {item.getPreco():.2f} \n"
+                try:
+                    produto = Produtos.listar_id(item.getIdProduto())
+                    produto.setEstoque(produto.getEstoque() - item.getQtd())
+                    carrinhoFinalizado += f"{produto.getDescricao()} - Qtd: {item.getQtd()} - R$ {item.getPreco():.2f} \n"
+                    Produtos.atualizar(produto)
+                    VendaItens.excluir(item)
+                except:
+                    Vendas.excluir(carrinho)
 
+        Vendas.excluir(carrinho)
         c.setIdCarrinho(0)
         c.inserirCarrinhoFinalizado(carrinhoFinalizado)
         Clientes.salvar()
 
-        for item in VendaItens.listar():
-            if item.getIdVenda() == id_carrinho:
-                produto = Produtos.listar_id(item.getIdProduto())
-                produto.setEstoque(produto.getEstoque() - item.getQtd())
-                Produtos.atualizar(produto)
-                VendaItens.excluir(item)
+        
 
         print("Compra finalizada com sucesso!")
