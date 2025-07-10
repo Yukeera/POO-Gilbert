@@ -77,3 +77,12 @@ class ManterClienteUI:
                     st.error(f"Erro: {erro}")
                     time.sleep(2)
                     st.rerun()
+
+    def listarCompras():
+        st.header("Minhas Compras")
+        vendas = View.listar_carrinhos_finalizados(st.session_state["cliente_id"])
+        if len(vendas) == 0:
+            st.write("Nenhuma compra foi realizada ainda.")
+        else:
+            df = pd.DataFrame(vendas)
+            st.dataframe(df)

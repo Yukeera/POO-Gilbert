@@ -5,22 +5,29 @@ from Templates.ManterClienteUI import ManterClienteUI
 from Templates.ManterProdutoUI import ManterProdutoUI
 from Templates.ManterVendasUI import ManterVendasUI
 from Templates.EntrarUI import EntrarUI
+from Templates.AbrirContaUI import AbrirContaUI
 
 class IndexUI:
     def menu_visitante():
         op = st.sidebar.selectbox("Menu", ["Entrar no Sistema", "Abrir Conta"])
         if op == "Entrar no Sistema": EntrarUI.main()
-        #if op == "Abrir Conta": AbrirContaUI.main()
+        if op == "Abrir Conta": AbrirContaUI.main()
 
     def menu_admin():            
         op = st.sidebar.selectbox("Menu", ["Cadastro de Categorias", "Cadastro de Clientes", "Cadastro de Produtos", "Listagem de Vendas"])
         if op == "Cadastro de Categorias": ManterCategoriaUI.main()
         if op == "Cadastro de Clientes": ManterClienteUI.main()
         if op == "Cadastro de Produtos": ManterProdutoUI.main()
-        if op == "Listagem de Vendas": ManterVendasUI.main()
+        if op == "Listagem de Vendas": ManterVendasUI.listarAdmin()
 
     def menu_cliente():
-        op = st.sidebar.selectbox("Menu", ["Listar Produtos", "Adicionar Produto no Carrinho", "Ver Carrinho", "Fechar Pedido", "Ver Meus Pedidos"])
+        op = st.sidebar.selectbox("Menu", ["Listar Produtos", "Adicionar Produto no Carrinho", "Iniciar Carrinho", "Ver Carrinho", "Confirmar Compra", "Ver Minhas Compras"])
+        if op == "Listar Produtos": ManterProdutoUI.listar()
+        if op == "Adicionar Produto no Carrinho": ManterVendasUI.inserirProdutoNoCarrinho()
+        if op == "Iniciar Carrinho": ManterVendasUI.iniciarCarrinho()
+        if op == "Ver Carrinho": ManterVendasUI.verMeuCarrinho()
+        if op == "Confirmar Compra": ManterVendasUI.confirmarCompra()
+        if op == "Ver Minhas Compras": ManterClienteUI.listarCompras()
 
     def sair_do_sistema():
         if st.sidebar.button("Sair"):

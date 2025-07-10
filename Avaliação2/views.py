@@ -155,6 +155,11 @@ class View:
         return vendas_formatadas
 
     @staticmethod
+    def listar_carrinhos_finalizados(id_cliente):
+        c = Clientes.listar_id(id_cliente)
+        return c.getCarrinhosFinalizados()
+
+    @staticmethod
     def venda_itens_listar(id_carrinho):
         itens_formatados = []
         carrinho = Vendas.listar_id(id_carrinho)
