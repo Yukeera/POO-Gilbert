@@ -1,6 +1,7 @@
 import streamlit as st
 from views import View
 import time
+from Templates.EntrarUI import EntrarUI
 
 class AbrirContaUI:
     def main():
@@ -11,6 +12,6 @@ class AbrirContaUI:
         fone = st.text_input("informe seu Telefone")
         if st.button("Criar conta!"):
             View.cliente_inserir(nome, email, senha, fone)
-            st.success("Conta criada com sucesso.")
+            st.success("Conta criada com sucesso. Faça o login.")
             time.sleep(2)
-            st.rerun
+            st.rerun()

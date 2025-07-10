@@ -1,1 +1,1 @@
-[{"_Produto__id": 1, "_Produto__descricao": "Folha Dupla", "_Produto__preco": 24.0, "_Produto__estoque": 0, "_Produto__id_categoria": 1}, {"_Produto__id": 2, "_Produto__descricao": "Folha Ruim", "_Produto__preco": 54.0, "_Produto__estoque": 0, "_Produto__id_categoria": 1}]
+[{"_Produto__id": 2, "_Produto__descricao": "Folha Ruim", "_Produto__preco": 54.0, "_Produto__estoque": 3, "_Produto__id_categoria": 1}, {"_Produto__id": 1, "_Produto__descricao": "Folha Dupla", "_Produto__preco": 24.0, "_Produto__estoque": 1, "_Produto__id_categoria": 1}]

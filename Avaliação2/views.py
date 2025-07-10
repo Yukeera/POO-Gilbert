@@ -209,6 +209,20 @@ class View:
                     produto.setEstoque(produto.getEstoque() - item.getQtd())
                     carrinhoFinalizado += f"{produto.getDescricao()} - Qtd: {item.getQtd()} - R$ {item.getPreco():.2f} \n"
                     Produtos.atualizar(produto)
+
+                    # DUPLICAR venda e itens antes de apagar
+                    nova_venda = Venda(0, carrinho.getIdCliente())
+                    nova_venda.setData(carrinho.getData())
+                    nova_venda.setCarrinho(False)
+                    nova_venda.setTotal(carrinho.getTotal())
+                    Vendas.inserir(nova_venda)
+                    for item in VendaItens.listar():
+                        if item.getIdVenda() == carrinho.getId():
+                            novo_item = VendaItem(0, item.getQtd(), item.getPreco())
+                            novo_item.setIdVenda(nova_venda.getId())
+                            novo_item.setIdProduto(item.getIdProduto())
+                            VendaItens.inserir(novo_item)
+
                     VendaItens.excluir(item)
                 except:
                     Vendas.excluir(carrinho)
@@ -218,6 +232,30 @@ class View:
         c.inserirCarrinhoFinalizado(carrinhoFinalizado)
         Clientes.salvar()
 
-        
-
         print("Compra finalizada com sucesso!")
+
+    # Função nova para fazer uma nova compra
+    @staticmethod
+    def listar_opcoes_recompra(id_cliente):
+        opcoes = []
+        ids_vendas = []
+        for venda in Vendas.listar():
+            if venda.getIdCliente() == id_cliente and not venda.getCarrinho():
+                desc = f"{venda.getId()} - {venda.getData().strftime('%d/%m/%Y %H:%M')} - R$ {venda.getTotal():.2f}"
+                opcoes.append(desc)
+                ids_vendas.append(venda.getId())
+        return opcoes, ids_vendas
+
+    @staticmethod
+    def comprar_novamente(id_cliente, id_venda_antiga):
+        carrinho_atual = View.carrinho_verificar(id_cliente)
+        if carrinho_atual == 0:
+            View.venda_inserir(id_cliente)
+            carrinho_atual = View.carrinho_verificar(id_cliente)
+        for item in VendaItens.listar():
+            if item.getIdVenda() == id_venda_antiga:
+                View.carrinho_adicionar_produto(
+                    carrinho_atual,
+                    item.getIdProduto(),
+                    item.getQtd()
+                )

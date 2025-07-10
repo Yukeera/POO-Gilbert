@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from views import View
 import time
+from Models.venda import Vendas
 
 
 class ManterVendasUI:
@@ -36,11 +37,11 @@ class ManterVendasUI:
                 View.carrinho_adicionar_produto(View.carrinho_verificar(st.session_state["cliente_id"]), produtoEscolhido.getId(), quant)
                 st.success("Item Adicionado!")
                 time.sleep(2)
-                st.rerun
+                st.rerun()
             except ValueError as erro:
                 st.warning(erro)
                 time.sleep(2)
-                st.rerun
+                st.rerun()
 
     
     def iniciarCarrinho():
@@ -52,35 +53,72 @@ class ManterVendasUI:
         except:
             st.warning("Você já tem um carrinho aberto. Por favor, finalize a compra antes de criar um novo!")
             time.sleep(2)
-            st.rerun
+            st.rerun()
 
     
     def verMeuCarrinho():
         if(View.carrinho_verificar(st.session_state["cliente_id"]) == 0):
             st.warning("Você precisa iniciar um carrinho primeiro!")
             time.sleep(2)
-            st.rerun
+            st.rerun()
         else:
-            st.header("Meu Carrinhuo")
+            st.header("Meu Carrinho")
             carrinho, itens = View.venda_itens_listar(View.carrinho_verificar(st.session_state["cliente_id"]))
             st.write(carrinho)
             for item in itens:
                 st.write(item)
             time.sleep(2)
-            st.rerun
+            st.rerun()
 
     def confirmarCompra():
         if(View.carrinho_verificar(st.session_state["cliente_id"]) == 0):
             st.warning("Você precisa iniciar um carrinho primeiro!")
             time.sleep(2)
-            st.rerun
+            st.rerun()
         else:
             try:
                 View.carrinho_confirmar_compra(View.carrinho_verificar(st.session_state["cliente_id"]),st.session_state["cliente_id"])
                 st.success("Compra Finalizada!")
                 time.sleep(2)
-                st.rerun
+                st.rerun()
             except ValueError as erro:
                 st.warning(erro)
                 time.sleep(2)
-                st.rerun
+                st.rerun()
+
+    # Tela para recomprar
+    def tela_comprar_novamente(cliente):
+        st.title("Comprar Novamente")
+        compras = View.listar_carrinhos_finalizados(cliente.getId())
+        if not compras:
+            st.warning("Você ainda não tem compras finalizadas.")
+            return
+        opcoes = []
+        ids_vendas = []
+        for venda in Vendas.listar():
+            if venda.getIdCliente() == cliente.getId() and venda.getCarrinho() == False:
+                desc = f"{venda.getId()} - {venda.getData().strftime('%d/%m/%Y %H:%M')} - R$ {venda.getTotal():.2f}"
+                opcoes.append(desc)
+                ids_vendas.append(venda.getId())
+        if not opcoes:
+            st.info("Nenhuma compra disponível para repetir.")
+            return
+        escolha = st.selectbox("Selecione uma compra:", opcoes)
+        if 'comprar_novamente_clicado' not in st.session_state:
+            st.session_state['comprar_novamente_clicado'] = False
+        if st.button("Adicionar itens ao carrinho") and not st.session_state['comprar_novamente_clicado']:
+            st.session_state['comprar_novamente_clicado'] = True
+            index = opcoes.index(escolha)
+            id_venda_antiga = ids_vendas[index]
+            try:
+                View.comprar_novamente(cliente.getId(), id_venda_antiga)
+                st.success("Itens adicionados ao carrinho com sucesso!")
+                time.sleep(2)
+                st.session_state['comprar_novamente_clicado'] = False  # resetar antes do rerun
+                st.rerun()
+            except ValueError as e:
+                st.warning(f"Erro ao adicionar itens: {e}")
+                st.session_state['comprar_novamente_clicado'] = False
+            except Exception as e:
+                st.error(f"Erro inesperado: {e}")
+                st.session_state['comprar_novamente_clicado'] = False
