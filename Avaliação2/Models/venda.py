@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 import pytz
+from Models.modelo import Modelo
 
 class Venda:
     def __init__(self, id, id_cliente):
@@ -64,41 +65,7 @@ class Venda:
         dic["id_cliente"] = self.getIdCliente()
         return dic
     
-class Vendas:      # Persistência - Armazena os objetos em um arquivo/banco de dados
-    objetos = []   # atributo de classe / estático - Não tem instância
-
-    @classmethod
-    def inserir(cls, obj):
-        cls.abrir()
-        m = 0
-        for x in cls.objetos:
-            if x.getId() > m: m = x.getId()
-        obj.setId(m + 1)    
-        cls.objetos.append(obj)
-        cls.salvar() 
-    @classmethod
-    def listar(cls):
-        cls.abrir()
-        return cls.objetos
-    @classmethod
-    def listar_id(cls, id):
-        cls.abrir()
-        for obj in cls.objetos:
-            if obj.getId() == id: return obj
-        return None               
-    @classmethod
-    def atualizar(cls, obj):
-        x = cls.listar_id(obj.getId())
-        if x != None: 
-            cls.objetos.remove(x)
-            cls.objetos.append(obj)
-            cls.salvar()
-    @classmethod
-    def excluir(cls, obj):
-        x = cls.listar_id(obj.getId())
-        if x != None: 
-            cls.objetos.remove(x)
-            cls.salvar()
+class Vendas(Modelo):      # Persistência - Armazena os objetos em um arquivo/banco de dados
     @classmethod
     def abrir(cls):
         cls.objetos = []

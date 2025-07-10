@@ -6,8 +6,8 @@ class Modelo(ABC):
         cls.abrir()
         m = 0
         for x in cls.objetos:
-            if x.id > m: m = x.id
-        obj.id = m + 1    
+            if x.getId() > m: m = x.getId()
+        obj.setId(m + 1)    
         cls.objetos.append(obj)
         cls.salvar() 
     @classmethod
@@ -18,18 +18,18 @@ class Modelo(ABC):
     def listar_id(cls, id):
         cls.abrir()
         for obj in cls.objetos:
-            if obj.id == id: return obj
+            if obj.getId() == id: return obj
         return None               
     @classmethod
     def atualizar(cls, obj):
-        x = cls.listar_id(obj.id)
+        x = cls.listar_id(obj.getId())
         if x != None: 
             cls.objetos.remove(x)
             cls.objetos.append(obj)
             cls.salvar()
     @classmethod
     def excluir(cls, obj):
-        x = cls.listar_id(obj.id)
+        x = cls.listar_id(obj.getId())
         if x != None: 
             cls.objetos.remove(x)
             cls.salvar()

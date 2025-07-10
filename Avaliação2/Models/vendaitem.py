@@ -1,4 +1,5 @@
 import json
+from Models.modelo import Modelo
 
 class VendaItem:
     def __init__(self, id, qtd, preco):
@@ -50,40 +51,7 @@ class VendaItem:
     def getIdProduto(self):
         return self.id_produto
 
-class VendaItens:    # Persistência - Armazena os objetos em um arquivo/banco de dados
-    objetos = []     # atributo de classe / estático - Não tem instância
-    @classmethod
-    def inserir(cls, obj):
-        cls.abrir()
-        m = 0
-        for x in cls.objetos:
-            if x.getId() > m: m = x.getId()
-        obj.setId(m + 1)    
-        cls.objetos.append(obj)
-        cls.salvar() 
-    @classmethod
-    def listar(cls):
-        cls.abrir()
-        return cls.objetos
-    @classmethod
-    def listar_id(cls, id):
-        cls.abrir()
-        for obj in cls.objetos:
-            if obj.getId() == id: return obj
-        return None               
-    @classmethod
-    def atualizar(cls, obj):
-        x = cls.listar_id(obj.getId())
-        if x != None: 
-            cls.objetos.remove(x)
-            cls.objetos.append(obj)
-            cls.salvar()
-    @classmethod
-    def excluir(cls, obj):
-        x = cls.listar_id(obj.getId())
-        if x != None: 
-            cls.objetos.remove(x)
-            cls.salvar()
+class VendaItens(Modelo):    # Persistência - Armazena os objetos em um arquivo/banco de dados
     @classmethod
     def abrir(cls):
         cls.objetos = [] 

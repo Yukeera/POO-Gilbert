@@ -1,4 +1,5 @@
 import json
+from Models.modelo import Modelo
 
 class Cliente:   # Domínio - Entidades - Várias instâncias
     def __init__(self, id, nome, email, senha, fone):
@@ -81,42 +82,7 @@ class Cliente:   # Domínio - Entidades - Várias instâncias
             print(carrinho)
         return 1
 
-class Clientes:    # Persistência - Armazena os objetos em um arquivo/banco de dados
-    objetos = []   # atributo de classe / estático - Não tem instância
-    @classmethod
-    def inserir(cls, obj):
-        cls.abrir()
-        m = 0
-        if len(cls.objetos) > 0:
-            m = max(cls.objetos, key=lambda c: c.getId()).getId()
-        #for x in cls.objetos:
-        #    if x.id > m: m = x.id
-        obj.setId(m + 1)    
-        cls.objetos.append(obj)
-        cls.salvar() 
-    @classmethod
-    def listar(cls):
-        cls.abrir()
-        return cls.objetos
-    @classmethod
-    def listar_id(cls, id):
-        cls.abrir()
-        for obj in cls.objetos:
-            if obj.getId() == id: return obj
-        return None               
-    @classmethod
-    def atualizar(cls, obj):
-        x = cls.listar_id(obj.getId())
-        if x != None: 
-            cls.objetos.remove(x)
-            cls.objetos.append(obj)
-            cls.salvar()
-    @classmethod
-    def excluir(cls, obj):
-        x = cls.listar_id(obj.getId())
-        if x != None: 
-            cls.objetos.remove(x)
-            cls.salvar()
+class Clientes(Modelo):    # Persistência - Armazena os objetos em um arquivo/banco de dados
     @classmethod
     def abrir(cls):
         cls.objetos = []
