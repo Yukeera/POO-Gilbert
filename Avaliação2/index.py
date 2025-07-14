@@ -21,19 +21,14 @@ class IndexUI:
         if op == "Listagem de Vendas": ManterVendasUI.listarAdmin()
 
     def menu_cliente():
-        op = st.sidebar.selectbox("Menu", ["Listar Produtos", "Adicionar Produto no Carrinho", "Iniciar Carrinho", "Ver Carrinho", "Confirmar Compra", "Ver Minhas Compras", "Comprar Novamente"])
+        op = st.sidebar.selectbox("Menu", ["Listar Produtos", "Adicionar Produto no Carrinho", "Ver Carrinho", "Confirmar Compra", "Ver Minhas Compras", "Comprar Novamente"])
         if op == "Listar Produtos": ManterProdutoUI.listar()
         if op == "Adicionar Produto no Carrinho": ManterVendasUI.inserirProdutoNoCarrinho()
-        if op == "Iniciar Carrinho": ManterVendasUI.iniciarCarrinho()
         if op == "Ver Carrinho": ManterVendasUI.verMeuCarrinho()
         if op == "Confirmar Compra": ManterVendasUI.confirmarCompra()
         if op == "Ver Minhas Compras": ManterClienteUI.listarCompras()
-        if op == "Comprar Novamente":
-            cliente_obj = View.cliente_listar_id(st.session_state["cliente_id"])
-            if cliente_obj:
-                ManterVendasUI.tela_comprar_novamente(cliente_obj)
-            else:
-                st.error("Usuário não encontrado.")
+        if op == "Comprar Novamente": ManterVendasUI.tela_comprar_novamente()
+            
 
 
 

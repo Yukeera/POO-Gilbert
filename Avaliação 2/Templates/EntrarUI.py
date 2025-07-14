@@ -13,5 +13,6 @@ class EntrarUI:
             else:    
                 st.session_state["cliente_id"] = c["id"]
                 st.session_state["cliente_nome"] = c["nome"]
+                View.clienteCa
                 st.rerun()
                

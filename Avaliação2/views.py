@@ -126,14 +126,19 @@ class View:
         c.setIdCarrinho(v.id)
         Clientes.salvar()
         return 1
-
+    
     @staticmethod
-    def carrinho_verificar(id_cliente):
-        c = Clientes.listar_id(id_cliente)
-        if c.getIdCarrinho() == 0:
-            return 0
-        else:
-            return c.getIdCarrinho()
+    def clienteCarrinhoCC(id_cliente):   
+        # procura um carrinho para o cliente
+        for v in Vendas.listar():
+            if v.id_cliente == id_cliente and v.carrinho:
+                return v.id
+        # insere um carrinho novo
+        v = Venda(0, id_cliente)
+        Vendas.inserir(v)
+        v.id_cliente = id_cliente
+        return v.id
+
 
     @staticmethod
     def venda_listar_terminal():
@@ -248,10 +253,10 @@ class View:
 
     @staticmethod
     def comprar_novamente(id_cliente, id_venda_antiga):
-        carrinho_atual = View.carrinho_verificar(id_cliente)
+        carrinho_atual = View.clienteCarrinhoCC(id_cliente)
         if carrinho_atual == 0:
             View.venda_inserir(id_cliente)
-            carrinho_atual = View.carrinho_verificar(id_cliente)
+            carrinho_atual = View.clienteCarrinhoCC(id_cliente)
         for item in VendaItens.listar():
             if item.getIdVenda() == id_venda_antiga:
                 View.carrinho_adicionar_produto(

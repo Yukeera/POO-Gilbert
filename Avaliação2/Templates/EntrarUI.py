@@ -15,6 +15,9 @@ class EntrarUI:
                 st.session_state["cliente"] = cliente
                 st.session_state["cliente_id"] = cliente.getId()
                 st.session_state["cliente_nome"] = cliente.getNome()
+                View.clienteCarrinhoCC(cliente.getId())
+                venda_id = View.clienteCarrinhoCC(cliente.getId())
+                st.session_state["venda_id"] = venda_id 
                 st.success("Login realizado com sucesso!")
                 time.sleep(2)
                 st.rerun()
