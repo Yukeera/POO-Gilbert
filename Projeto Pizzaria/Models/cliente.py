@@ -28,10 +28,7 @@ class Clientes(Modelo):    # Persistência - Armazena os objetos em um arquivo/b
             with open("clientes.json", mode="r") as arquivo:
                 s = json.load(arquivo)
                 for dic in s: 
-                    obj = Cliente(dic["_Cliente__id"], dic["_Cliente__nome"], dic["_Cliente__email"], dic["_Cliente__senha"], dic["_Cliente__fone"])
-                    obj.setIdCarrinho(dic["_Cliente__id_carrinho"])
-                    obj.setCarrinhosFinalizados(dic["_Cliente__carrinhosFinalizados"])
-
+                    obj = Cliente(dic["_Usuario__id"], dic["_Usuario__nome"], dic["_Usuario__email"], dic["_Usuario__senha"], dic["_Cliente__fone"])
                     cls.objetos.append(obj)
         except FileNotFoundError:
             pass            

@@ -59,7 +59,7 @@ class ItensPedidos(Modelo):    # Persistência - Armazena os objetos em um arqui
             with open("itemPedido.json", mode="r") as arquivo:
                 s = json.load(arquivo)
                 for dic in s: 
-                    obj = VendaItem(dic["id"], dic["qtd"], dic["preco"])
+                    obj = ItemPedido(dic["id"], dic["qtd"], dic["preco"])
                     obj.setIdPedido(dic["id_pedido"])
                     obj.setIdProduto(dic["id_produto"])
                     cls.objetos.append(obj)

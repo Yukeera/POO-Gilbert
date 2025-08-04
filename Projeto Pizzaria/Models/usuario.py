@@ -49,3 +49,6 @@ class Usuario(ABC):
         if not isinstance(admin, bool):
             raise ValueError("O valor de admin deve ser booleano.")
         self.__admin = admin
+
+    def getType(self):
+        return "Usuário"

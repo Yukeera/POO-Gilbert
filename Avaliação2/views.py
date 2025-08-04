@@ -116,16 +116,6 @@ class View:
     # Venda / Carrinho - Criação e manipulação
     # ----------------------------------------
 
-    @staticmethod
-    def venda_inserir(id_cliente):
-        c = Clientes.listar_id(id_cliente)
-        if c.getIdCarrinho() != 0:
-            raise ValueError
-        v = Venda(0, id_cliente)
-        Vendas.inserir(v)
-        c.setIdCarrinho(v.id)
-        Clientes.salvar()
-        return 1
     
     @staticmethod
     def clienteCarrinhoCC(id_cliente):   

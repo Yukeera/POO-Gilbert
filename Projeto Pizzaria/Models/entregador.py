@@ -9,18 +9,22 @@ class Entregador(Usuario):   # Domínio - Entidades - Várias instâncias
         self.setEmail(email)
         self.setSenha(senha)
         self.__status = False # Em serviço ou não
+        self.type = "Entregador"
     def __str__(self):
-        return f"{self.getId()} - {self.getNome()} - {self.getEmail()} - {self.getFone()}"
+        return f"{self.getId()} - {self.getNome()} - {self.getEmail()} - {'Em serviço' if self.getStatus() else 'Disponível'}"
+
+    def getType(self):
+        return self.type
 
     def getStatus(self):
         return self.__status
     
     def setStatus(self, status):
         if (status == "" or status is None):
-            raise ValueError("O valor não pode ser vazio.")-
+            raise ValueError("O valor não pode ser vazio.")
         self.__status = status
 
-class Clientes(Modelo):    # Persistência - Armazena os objetos em um arquivo/banco de dados
+class Entregadores(Modelo):    # Persistência - Armazena os objetos em um arquivo/banco de dados
     @classmethod
     def abrir(cls):
         cls.objetos = []
@@ -28,8 +32,8 @@ class Clientes(Modelo):    # Persistência - Armazena os objetos em um arquivo/b
             with open("entregadores.json", mode="r") as arquivo:
                 s = json.load(arquivo)
                 for dic in s: 
-                    obj = Entregador(dic["_Entregador__id"], dic["_Entregador__nome"], dic["_Entregador__email"], dic["_Entregador__senha"])
-
+                    obj = Entregador(dic["_Usuario__id"], dic["_Usuario__nome"], dic["_Usuario__email"], dic["_Usuario__senha"])
+                    obj.setStatus(dic["_Entregador__status"])
                     cls.objetos.append(obj)
         except FileNotFoundError:
             pass            
